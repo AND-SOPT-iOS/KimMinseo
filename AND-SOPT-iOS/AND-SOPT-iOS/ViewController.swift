@@ -12,7 +12,7 @@ class ViewController: UIViewController {
     // MARK: - UI Properties
     
     private let kakaoImageView: UIImageView = {
-        let imageView = UIImageView(frame: CGRect(x:30, y:170, width:100, height:100))
+        let imageView = UIImageView()
         imageView.image = UIImage(named: "kakaoImage")
         imageView.contentMode = .scaleAspectFit
         
@@ -20,7 +20,7 @@ class ViewController: UIViewController {
     }()
     
     private let titleLabel: UILabel = {
-        let label = UILabel(frame: CGRect(x:150, y:200, width:236, height:44))
+        let label = UILabel()
         label.text = "카카오톡"
         label.font = .systemFont(ofSize: 20, weight: .semibold)
         label.textColor = .black
@@ -29,7 +29,7 @@ class ViewController: UIViewController {
     }()
     
     private lazy var openButton: UIButton = {
-        let button = UIButton(frame: CGRect(x:150, y:240, width:100, height:30))
+        let button = UIButton()
         button.setTitle("열기", for: .normal)
         button.backgroundColor = UIColor(red: 71/255, green: 123/255, blue: 255/255, alpha: 1)
         button.setTitleColor(.white, for: .normal)
@@ -42,7 +42,7 @@ class ViewController: UIViewController {
     }()
     
     private let titleTextField: UITextField = {
-        let textField = UITextField(frame: CGRect(x:30, y:290, width:310, height:50))
+        let textField = UITextField()
         textField.placeholder = "제목을 입력해주세요."
         textField.clearButtonMode = .whileEditing
         textField.layer.borderColor = UIColor.gray.cgColor
@@ -57,9 +57,25 @@ class ViewController: UIViewController {
         return textField
     }()
     
+    private let contentTextField: UITextField = {
+        let textField = UITextField()
+        textField.placeholder = "내용을 입력해주세요."
+        textField.clearButtonMode = .whileEditing
+        textField.layer.borderColor = UIColor.gray.cgColor
+        textField.layer.borderWidth = 1
+        textField.layer.cornerRadius = 7
+        
+        //padding
+        let paddingView = UIView(frame: CGRect(x: 0, y: 0, width: 10, height: textField.frame.height))
+        textField.leftView = paddingView
+        textField.leftViewMode = .always
+        
+        return textField
+    }()
+    
     private lazy var pushModeToggleButton: UIButton = {
-        let button = UIButton(frame: CGRect(x:30, y:350, width:310, height:50))
-        button.setTitle("전환 모드 변경", for: .normal)
+        let button = UIButton()
+        button.setTitle("네비게이션 모드", for: .normal)
         button.backgroundColor = UIColor(red: 71/255, green: 123/255, blue: 255/255, alpha: 1)
         button.setTitleColor(.white, for: .normal)
         button.layer.cornerRadius = 7
@@ -81,16 +97,59 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        setStyle()
+        setHierarchy()
+        setLayout()
+    }
+    
+    func setStyle() {
         self.view.backgroundColor = .white
+    }
+    
+    func setHierarchy() {
         [
             kakaoImageView,
             titleLabel,
             openButton,
             titleTextField,
+            contentTextField,
             pushModeToggleButton
         ].forEach {
+            $0.translatesAutoresizingMaskIntoConstraints = false
             self.view.addSubview($0)
         }
+    }
+    
+    func setLayout() {
+        NSLayoutConstraint.activate([
+            kakaoImageView.topAnchor.constraint(equalTo: view.topAnchor, constant: 170),
+            kakaoImageView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 30),
+            kakaoImageView.widthAnchor.constraint(equalToConstant: 100),
+            kakaoImageView.heightAnchor.constraint(equalToConstant: 100),
+            
+            titleLabel.topAnchor.constraint(equalTo: view.topAnchor, constant: 200),
+            titleLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 150),
+            
+            openButton.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 10),
+            openButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 150),
+            openButton.widthAnchor.constraint(equalToConstant: 100),
+            openButton.heightAnchor.constraint(equalToConstant: 30),
+            
+            titleTextField.topAnchor.constraint(equalTo: openButton.bottomAnchor, constant: 30),
+            titleTextField.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            titleTextField.widthAnchor.constraint(equalToConstant: 310),
+            titleTextField.heightAnchor.constraint(equalToConstant: 50),
+            
+            contentTextField.topAnchor.constraint(equalTo: titleTextField.bottomAnchor, constant: 10),
+            contentTextField.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            contentTextField.widthAnchor.constraint(equalToConstant: 310),
+            contentTextField.heightAnchor.constraint(equalToConstant: 50),
+            
+            pushModeToggleButton.topAnchor.constraint(equalTo: contentTextField.bottomAnchor, constant: 20),
+            pushModeToggleButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            pushModeToggleButton.widthAnchor.constraint(equalToConstant: 310),
+            pushModeToggleButton.heightAnchor.constraint(equalToConstant: 50)
+        ])
     }
     
     
@@ -121,13 +180,17 @@ extension ViewController {
     private func transitionToNextViewController() {
         let nextViewController = DetailViewController()
         
+        //if-let 구문으로 데이터 전달
+        //텍스트 필드의 입력 값이 nil이 아니면 안에 구문 실행
+        if let title = titleTextField.text, let content = contentTextField.text {
+            nextViewController.dataBind(title: title, content: content)
+        }
+        
         if pushMode {
             self.navigationController?.pushViewController(nextViewController, animated: true)
         } else {
             self.present(nextViewController, animated: true)
         }
     }
-    
-    
 }
 
