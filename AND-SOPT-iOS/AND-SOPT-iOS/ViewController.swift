@@ -107,17 +107,14 @@ class ViewController: UIViewController {
     }
     
     func setHierarchy() {
-        [
+        view.addSubviews(
             kakaoImageView,
             titleLabel,
             openButton,
             titleTextField,
             contentTextField,
             pushModeToggleButton
-        ].forEach {
-            $0.translatesAutoresizingMaskIntoConstraints = false
-            self.view.addSubview($0)
-        }
+        )
     }
     
     func setLayout() {

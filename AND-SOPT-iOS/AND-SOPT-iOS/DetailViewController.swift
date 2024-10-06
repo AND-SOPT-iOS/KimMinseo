@@ -48,10 +48,7 @@ class DetailViewController: UIViewController {
     }
     
     private func setHierarchy() {
-        [titleLabel, contentLabel, backButton].forEach {
-            $0.translatesAutoresizingMaskIntoConstraints = false
-            self.view.addSubview($0)
-        }
+        view.addSubviews(titleLabel, contentLabel, backButton)
     }
     
     private func setLayout() {
