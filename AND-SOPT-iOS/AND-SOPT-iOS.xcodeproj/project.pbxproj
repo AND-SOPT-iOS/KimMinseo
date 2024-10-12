@@ -19,7 +19,7 @@
 		0DE47BC62CB0D05B004BEFD5 /* Exceptions for "AND-SOPT-iOS" folder in "AND-SOPT-iOS" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
-				Info.plist,
+				Global/Info.plist,
 			);
 			target = 0DE47BB32CB0D059004BEFD5 /* AND-SOPT-iOS */;
 		};
@@ -160,7 +160,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = ZVPB55PQN5;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = "AND-SOPT-iOS/Info.plist";
+				INFOPLIST_FILE = "AND-SOPT-iOS/Global/Info.plist";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
@@ -187,7 +187,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = ZVPB55PQN5;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = "AND-SOPT-iOS/Info.plist";
+				INFOPLIST_FILE = "AND-SOPT-iOS/Global/Info.plist";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
