@@ -182,7 +182,12 @@ extension ViewController {
         if let title = titleTextField.text, let content = contentTextField.text {
             nextViewController.dataBind(title: title, content: content)
         }
+        guard let title = titleTextField.text, let content = contentTextField.text else {
+            return
+        }
         
+        nextViewController.dataBind(title: title, content: content)
+
         if pushMode {
             self.navigationController?.pushViewController(nextViewController, animated: true)
         } else {
