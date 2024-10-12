@@ -7,6 +7,10 @@
 
 import UIKit
 
+protocol DataBindDelegate: AnyObject {
+  func dataBind(content: String)
+}
+
 class DetailViewController: UIViewController {
     
     // MARK: - UI Properties
@@ -25,6 +29,22 @@ class DetailViewController: UIViewController {
         return label
     }()
     
+    private let contentTextField: UITextField = {
+        let textField = UITextField()
+        textField.placeholder = "내용을 입력해주세요."
+        textField.clearButtonMode = .whileEditing
+        textField.layer.borderColor = UIColor.gray.cgColor
+        textField.layer.borderWidth = 1
+        textField.layer.cornerRadius = 7
+        
+        //padding
+        let paddingView = UIView(frame: CGRect(x: 0, y: 0, width: 10, height: textField.frame.height))
+        textField.leftView = paddingView
+        textField.leftViewMode = .always
+        
+        return textField
+    }()
+    
     private lazy var backButton: UIButton = {
         let button = UIButton()
         button.setTitle("이전 화면으로", for: .normal)
@@ -34,6 +54,9 @@ class DetailViewController: UIViewController {
         button.addTarget(self, action: #selector(backButtonTapped), for: .touchUpInside)
         return button
     }()
+    
+    
+    weak var delegate: DataBindDelegate?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -48,7 +71,7 @@ class DetailViewController: UIViewController {
     }
     
     private func setHierarchy() {
-        view.addSubviews(titleLabel, contentLabel, backButton)
+        view.addSubviews(titleLabel, contentLabel, contentTextField, backButton)
     }
     
     private func setLayout() {
@@ -57,10 +80,15 @@ class DetailViewController: UIViewController {
                 titleLabel.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 200),
                 titleLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
                 
-                contentLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 10),
+                contentLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 15),
                 contentLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
                 
-                backButton.topAnchor.constraint(equalTo: contentLabel.bottomAnchor,constant: 10),
+                contentTextField.topAnchor.constraint(equalTo: contentLabel.bottomAnchor, constant: 30),
+                contentTextField.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+                contentTextField.widthAnchor.constraint(equalToConstant: 310),
+                contentTextField.heightAnchor.constraint(equalToConstant: 50),
+                
+                backButton.topAnchor.constraint(equalTo: contentTextField.bottomAnchor,constant: 10),
                 backButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
                 backButton.heightAnchor.constraint(equalToConstant: 50),
                 backButton.widthAnchor.constraint(equalToConstant: 310),
@@ -77,9 +105,10 @@ class DetailViewController: UIViewController {
         if self.navigationController == nil {
             self.dismiss(animated: true)
         } else {
+            if let content = contentTextField.text {
+                delegate?.dataBind(content: content)
+             }
             self.navigationController?.popViewController(animated: true)
         }
     }
 }
-
-

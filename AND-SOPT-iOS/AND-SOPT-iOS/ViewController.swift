@@ -173,26 +173,32 @@ extension ViewController {
         }
     }
     
-    //화면 전환
     private func transitionToNextViewController() {
         let nextViewController = DetailViewController()
         
-        //if-let 구문으로 데이터 전달
-        //텍스트 필드의 입력 값이 nil이 아니면 안에 구문 실행
+        // 데이터 전달
         if let title = titleTextField.text, let content = contentTextField.text {
             nextViewController.dataBind(title: title, content: content)
         }
-        guard let title = titleTextField.text, let content = contentTextField.text else {
-            return
-        }
         
-        nextViewController.dataBind(title: title, content: content)
-
+        // delegate 설정
+        nextViewController.delegate = self
+        
+        // 화면 전환
         if pushMode {
             self.navigationController?.pushViewController(nextViewController, animated: true)
         } else {
             self.present(nextViewController, animated: true)
         }
     }
+
+}
+
+extension ViewController: DataBindDelegate {
+    
+    func dataBind(content: String) {
+        self.titleLabel.text = "전달 완\(content)"
+  }
+    
 }
 
