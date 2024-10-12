@@ -7,11 +7,14 @@
 
 import UIKit
 
+import SnapKit
+import Then
+
 class ViewController: UIViewController {
     
     // MARK: - UI Properties
     
-    private let kakaoImageView: UIImageView = {
+    private let iconImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.image = UIImage(named: "kakaoImage")
         imageView.contentMode = .scaleAspectFit
@@ -21,7 +24,7 @@ class ViewController: UIViewController {
     
     private let titleLabel: UILabel = {
         let label = UILabel()
-        label.text = "카카오톡"
+        label.text = "안녕 나 치이카와~!"
         label.font = .systemFont(ofSize: 20, weight: .semibold)
         label.textColor = .black
         
@@ -91,6 +94,8 @@ class ViewController: UIViewController {
     
     private var pushMode: Bool = false
     
+    weak var delegate: DataBindDelegate?
+
     
     // MARK: - Lifecycle
     
@@ -108,7 +113,7 @@ class ViewController: UIViewController {
     
     func setHierarchy() {
         view.addSubviews(
-            kakaoImageView,
+            iconImageView,
             titleLabel,
             openButton,
             titleTextField,
@@ -118,35 +123,43 @@ class ViewController: UIViewController {
     }
     
     func setLayout() {
-        NSLayoutConstraint.activate([
-            kakaoImageView.topAnchor.constraint(equalTo: view.topAnchor, constant: 170),
-            kakaoImageView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 30),
-            kakaoImageView.widthAnchor.constraint(equalToConstant: 100),
-            kakaoImageView.heightAnchor.constraint(equalToConstant: 100),
-            
-            titleLabel.topAnchor.constraint(equalTo: view.topAnchor, constant: 200),
-            titleLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 150),
-            
-            openButton.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 10),
-            openButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 150),
-            openButton.widthAnchor.constraint(equalToConstant: 100),
-            openButton.heightAnchor.constraint(equalToConstant: 30),
-            
-            titleTextField.topAnchor.constraint(equalTo: openButton.bottomAnchor, constant: 30),
-            titleTextField.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            titleTextField.widthAnchor.constraint(equalToConstant: 310),
-            titleTextField.heightAnchor.constraint(equalToConstant: 50),
-            
-            contentTextField.topAnchor.constraint(equalTo: titleTextField.bottomAnchor, constant: 10),
-            contentTextField.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            contentTextField.widthAnchor.constraint(equalToConstant: 310),
-            contentTextField.heightAnchor.constraint(equalToConstant: 50),
-            
-            pushModeToggleButton.topAnchor.constraint(equalTo: contentTextField.bottomAnchor, constant: 20),
-            pushModeToggleButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            pushModeToggleButton.widthAnchor.constraint(equalToConstant: 310),
-            pushModeToggleButton.heightAnchor.constraint(equalToConstant: 50)
-        ])
+        
+        iconImageView.snp.makeConstraints {
+            $0.top.equalToSuperview().inset(100)
+            $0.leading.equalToSuperview().inset(20)
+            $0.size.equalTo(100)
+        }
+        
+        titleLabel.snp.makeConstraints {
+            $0.bottom.equalTo(openButton.snp.top).offset(-10)
+            $0.leading.equalTo(openButton)
+        }
+        
+        openButton.snp.makeConstraints {
+            $0.bottom.equalTo(iconImageView)
+            $0.leading.equalTo(iconImageView.snp.trailing).offset(10)
+            $0.width.equalTo(100)
+            $0.height.equalTo(30)
+        }
+        
+        titleTextField.snp.makeConstraints {
+            $0.top.equalTo(iconImageView.snp.bottom).offset(20)
+            $0.horizontalEdges.equalToSuperview().inset(20)
+            $0.height.equalTo(50)
+        }
+        
+        contentTextField.snp.makeConstraints {
+            $0.top.equalTo(titleTextField.snp.bottom).offset(10)
+            $0.horizontalEdges.equalToSuperview().inset(20)
+            $0.height.equalTo(50)
+        }
+        
+        pushModeToggleButton.snp.makeConstraints {
+            $0.top.equalTo(contentTextField.snp.bottom).offset(10)
+            $0.horizontalEdges.equalToSuperview().inset(20)
+            $0.height.equalTo(50)
+        }
+        
     }
     
     
@@ -197,7 +210,7 @@ extension ViewController {
 extension ViewController: DataBindDelegate {
     
     func dataBind(content: String) {
-        self.titleLabel.text = "전달 완\(content)"
+        self.titleLabel.text = "전달 완! \(content)"
   }
     
 }

@@ -75,25 +75,47 @@ class DetailViewController: UIViewController {
     }
     
     private func setLayout() {
-        NSLayoutConstraint.activate(
-            [
-                titleLabel.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 200),
-                titleLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-                
-                contentLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 15),
-                contentLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-                
-                contentTextField.topAnchor.constraint(equalTo: contentLabel.bottomAnchor, constant: 30),
-                contentTextField.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-                contentTextField.widthAnchor.constraint(equalToConstant: 310),
-                contentTextField.heightAnchor.constraint(equalToConstant: 50),
-                
-                backButton.topAnchor.constraint(equalTo: contentTextField.bottomAnchor,constant: 10),
-                backButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-                backButton.heightAnchor.constraint(equalToConstant: 50),
-                backButton.widthAnchor.constraint(equalToConstant: 310),
-            ]
-        )
+//        NSLayoutConstraint.activate(
+//            [
+//                titleLabel.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 200),
+//                titleLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+//                
+//                contentLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 15),
+//                contentLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+//                
+//                contentTextField.topAnchor.constraint(equalTo: contentLabel.bottomAnchor, constant: 30),
+//                contentTextField.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+//                contentTextField.widthAnchor.constraint(equalToConstant: 310),
+//                contentTextField.heightAnchor.constraint(equalToConstant: 50),
+//                
+//                backButton.topAnchor.constraint(equalTo: contentTextField.bottomAnchor,constant: 10),
+//                backButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+//                backButton.heightAnchor.constraint(equalToConstant: 50),
+//                backButton.widthAnchor.constraint(equalToConstant: 310),
+//            ]
+//        )
+        
+        titleLabel.snp.makeConstraints {
+            $0.top.equalToSuperview().inset(200)
+            $0.centerX.equalToSuperview()
+        }
+        
+        contentLabel.snp.makeConstraints {
+            $0.top.equalTo(titleLabel.snp.bottom).offset(15)
+            $0.centerX.equalToSuperview()
+        }
+        
+        contentTextField.snp.makeConstraints {
+            $0.top.equalTo(contentLabel.snp.bottom).offset(10)
+            $0.horizontalEdges.equalToSuperview().inset(20)
+            $0.height.equalTo(50)
+        }
+        
+        backButton.snp.makeConstraints {
+            $0.top.equalTo(contentTextField.snp.bottom).offset(10)
+            $0.horizontalEdges.equalToSuperview().inset(20)
+            $0.height.equalTo(50)
+        }
     }
     
     func dataBind(title: String, content: String) {
