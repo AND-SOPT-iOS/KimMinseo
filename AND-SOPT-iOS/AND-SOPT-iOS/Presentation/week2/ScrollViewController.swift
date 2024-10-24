@@ -10,7 +10,7 @@ import UIKit
 import SnapKit
 import Then
 
-class TossDetailViewController: UIViewController {
+class ScrollViewController: UIViewController {
     
     // MARK: - UI Properties
     
