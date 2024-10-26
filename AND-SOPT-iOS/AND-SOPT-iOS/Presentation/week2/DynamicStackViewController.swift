@@ -1,12 +1,11 @@
 //
-//  MainViewController.swift
+//  DynamicStackViewController.swift
 //  AND-SOPT-iOS
 //
 //  Created by 김민서 on 10/22/24.
 //
 
 import UIKit
-
 import SnapKit
 import Then
 
@@ -22,7 +21,11 @@ class DynamicStackViewController: UIViewController {
     
     private let stackView: UIStackView = UIStackView()
     
-    private let addButton: UIButton = UIButton()
+    private let lineView2: UIView = UIView()
+    
+    private let tagLabel: UILabel = UILabel()
+
+    private let tagListStackView: UIStackView = UIStackView()
     
     // MARK: - UI Properties
     
@@ -34,18 +37,17 @@ class DynamicStackViewController: UIViewController {
         "위아요짱", "아요를 위아요~", "뷰짜자고?", "너 누군데?", "UIStackView", "술이나 마시자", "홈리스클럽", "하암"
     ]
     
-    private var currentTagIndex = 0
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         
         setHierarchy()
         setLayout()
         setStyle()
+        setupTagList()
     }
     
     func setHierarchy() {
-        self.view.addSubviews(titleLabel, lineView, scrollView, addButton)
+        self.view.addSubviews(titleLabel, lineView, scrollView, lineView2, tagLabel, tagListStackView)
         scrollView.addSubview(stackView)
     }
     
@@ -74,12 +76,21 @@ class DynamicStackViewController: UIViewController {
             $0.height.equalTo(30)
         }
         
-        addButton.snp.makeConstraints {
-            $0.leading.equalToSuperview().offset(20)
-            $0.trailing.equalToSuperview().offset(-20)
-            $0.bottom.equalTo(view.safeAreaLayoutGuide.snp.bottom).offset(-20)
+        lineView2.snp.makeConstraints {
+            $0.top.equalTo(stackView.snp.bottom).offset(10)
+            $0.horizontalEdges.equalToSuperview()
+            $0.height.equalTo(35)
         }
         
+        tagLabel.snp.makeConstraints {
+            $0.bottom.equalTo(lineView2).inset(3)
+            $0.leading.equalToSuperview().inset(16)
+        }
+        
+        tagListStackView.snp.makeConstraints {
+            $0.top.equalTo(lineView2.snp.bottom).offset(10)
+            $0.leading.trailing.equalToSuperview().inset(16)
+        }
     }
     
     func setStyle() {
@@ -95,6 +106,10 @@ class DynamicStackViewController: UIViewController {
             $0.backgroundColor = .lightgray
         }
         
+        lineView2.do {
+            $0.backgroundColor = .lightgray
+        }
+        
         scrollView.do {
             $0.translatesAutoresizingMaskIntoConstraints = false
             $0.showsHorizontalScrollIndicator = false
@@ -105,70 +120,107 @@ class DynamicStackViewController: UIViewController {
             $0.axis = .horizontal
             $0.spacing = 10
             $0.alignment = .fill
-            $0.distribution = .fill // 각 버튼이 콘텐츠에 맞춰 크기 조정
+            $0.distribution = .fill
         }
         
-        addButton.do {
-            $0.setTitle("태그 추가하기", for: .normal)
-            $0.setTitleColor(.blue, for: .normal)
-            $0.translatesAutoresizingMaskIntoConstraints = false
-            $0.addTarget(self, action: #selector(addButtonTapped), for: .touchUpInside)
+        tagLabel.do {
+            $0.text = "태그 선택"
+            $0.textColor = .darkgray
+            $0.font = .systemFont(ofSize: 13)
         }
         
+        tagListStackView.do {
+            $0.axis = .vertical
+            $0.spacing = 5
+            $0.alignment = .leading
+            $0.distribution = .fill
+        }
     }
     
-    @objc private func addButtonTapped() {
-        guard currentTagIndex < tagTexts.count else { return } // 모든 태그가 추가되면 리턴
+    
+    @objc
+    func tagButtonTapped(_ sender: UIButton) {
+        guard let tagText = sender.title(for: .normal),
+              let backgroundColor = sender.backgroundColor else { return }
         
-        let newTag: UIButton = UIButton()
-        
-        let backgroundColor = colorArray.randomElement() ?? .lightGray // 색상 배열에서 무작위 색상 선택
-        newTag.do {
-            $0.setTitle(tagTexts[currentTagIndex], for: .normal)
-            $0.backgroundColor = backgroundColor // 배경색 설정
-            $0.setTitleColor(darkerColor(for: backgroundColor), for: .normal) // 진한 색상으로 설정
-            $0.layer.cornerRadius = 3
-            $0.contentEdgeInsets = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 30) // 패딩 설정
-            $0.titleLabel?.font = UIFont.systemFont(ofSize: 16) // 폰트 설정
-            
-            // X 아이콘 추가
-            let deleteButton = UIButton(type: .custom)
-            if let closeIcon = UIImage(named: "closeIcon")?.withRenderingMode(.alwaysTemplate) {
-                deleteButton.setImage(closeIcon, for: .normal)
-            }
-            deleteButton.tintColor = darkerColor(for: newTag.backgroundColor!) // 아이콘 색상
-            deleteButton.addTarget(self, action: #selector(deleteTag(_:)), for: .touchUpInside) // 삭제 메서드 연결
-            
-            // 태그 버튼에 X 아이콘 추가
-            newTag.addSubview(deleteButton)
-            
-            // X 아이콘 제약조건 설정
-            deleteButton.snp.makeConstraints {
-                $0.width.height.equalTo(10) // 아이콘 크기 설정
-                $0.trailing.equalToSuperview().offset(-10) // 태그 버튼 오른쪽에 위치
-                $0.centerY.equalToSuperview() // 중앙 정렬
-            }
-        }
-        
-        newTag.snp.makeConstraints {
-            $0.height.equalTo(30)
-        }
-        
-        stackView.addArrangedSubview(newTag)
-        
-        currentTagIndex += 1 // 인덱스 증가
+        addTagToStack(tagText: tagText, backgroundColor: backgroundColor)
     }
     
-    @objc private func deleteTag(_ sender: UIButton) {
+    @objc
+    func deleteTag(_ sender: UIButton) {
         if let tagButton = sender.superview as? UIButton {
-            tagButton.removeFromSuperview() // 해당 태그 버튼 삭제
+            tagButton.removeFromSuperview()
         }
     }
 }
 
 extension DynamicStackViewController {
     
-    private func darkerColor(for color: UIColor) -> UIColor {
+    func setupTagList() {
+        for (index, tagText) in tagTexts.enumerated() {
+            let tagButton: UIButton = UIButton()
+            let backgroundColor = colorArray[index % colorArray.count]
+            
+            tagButton.do {
+                $0.setTitle(tagText, for: .normal)
+                $0.backgroundColor = backgroundColor
+                $0.setTitleColor(darkerColor(for: backgroundColor), for: .normal)
+                $0.layer.cornerRadius = 3
+                $0.contentEdgeInsets = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
+                $0.titleLabel?.font = UIFont.systemFont(ofSize: 16)
+                $0.addTarget(self, action: #selector(tagButtonTapped(_:)), for: .touchUpInside)
+            }
+            
+            tagButton.snp.makeConstraints {
+                $0.height.equalTo(30)
+            }
+            
+            tagListStackView.addArrangedSubview(tagButton)
+        }
+    }
+    
+    func addTagToStack(tagText: String, backgroundColor: UIColor) {
+        let newTag = createTagButton(tagText: tagText, backgroundColor: backgroundColor)
+        configureDeleteButton(for: newTag)
+        
+        stackView.addArrangedSubview(newTag)
+    }
+    
+    func createTagButton(tagText: String, backgroundColor: UIColor) -> UIButton {
+        let tagButton = UIButton()
+        tagButton.do {
+            $0.setTitle(tagText, for: .normal)
+            $0.backgroundColor = backgroundColor
+            $0.setTitleColor(darkerColor(for: backgroundColor), for: .normal)
+            $0.layer.cornerRadius = 3
+            $0.contentEdgeInsets = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 30)
+            $0.titleLabel?.font = UIFont.systemFont(ofSize: 16)
+        }
+        return tagButton
+    }
+
+    func configureDeleteButton(for tagButton: UIButton) {
+        let deleteButton = UIButton(type: .custom)
+        
+        if let closeIcon = UIImage(named: "closeIcon")?.withRenderingMode(.alwaysTemplate) {
+            deleteButton.setImage(closeIcon, for: .normal)
+        }
+        
+        deleteButton.do {
+            $0.tintColor = darkerColor(for: tagButton.backgroundColor!)
+            $0.addTarget(self, action: #selector(deleteTag(_:)), for: .touchUpInside)
+        }
+        
+        tagButton.addSubview(deleteButton)
+        
+        deleteButton.snp.makeConstraints {
+            $0.width.height.equalTo(10)
+            $0.trailing.equalToSuperview().offset(-10)
+            $0.centerY.equalToSuperview()
+        }
+    }
+    
+    func darkerColor(for color: UIColor) -> UIColor {
         var red: CGFloat = 0
         var green: CGFloat = 0
         var blue: CGFloat = 0
