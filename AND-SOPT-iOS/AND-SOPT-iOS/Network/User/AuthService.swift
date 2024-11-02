@@ -33,7 +33,7 @@ class AuthService {
             if let data = response.data {
                 print("Response Data: \(String(data: data, encoding: .utf8) ?? "No Data")")
                 do {
-                    let jsonResponse = try JSONDecoder().decode(GetTokenResponse.self, from: data)
+                    let jsonResponse = try JSONDecoder().decode(PostUserInfoResponse.self, from: data)
                     let token = jsonResponse.result.token
                     self?.saveToken(token)
                 } catch {

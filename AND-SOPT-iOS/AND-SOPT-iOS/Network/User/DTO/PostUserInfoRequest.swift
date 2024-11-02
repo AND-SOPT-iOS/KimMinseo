@@ -1,5 +1,5 @@
 //
-//  postUserInfoRequest.swift
+//  PostUserInfoRequest.swift
 //  AND-SOPT-iOS
 //
 //  Created by 김민서 on 11/2/24.
