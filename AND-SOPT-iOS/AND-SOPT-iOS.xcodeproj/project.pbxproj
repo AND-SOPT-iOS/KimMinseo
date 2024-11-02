@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0D352BEA2CD37795004E0B5A /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = 0D352BE92CD37795004E0B5A /* Alamofire */; };
+		0D352BED2CD37947004E0B5A /* Moya in Frameworks */ = {isa = PBXBuildFile; productRef = 0D352BEC2CD37947004E0B5A /* Moya */; };
 		0DBBBA782CBA15CD0018186F /* Then in Frameworks */ = {isa = PBXBuildFile; productRef = 0DBBBA772CBA15CD0018186F /* Then */; };
 		0DBBBA7B2CBA15DF0018186F /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = 0DBBBA7A2CBA15DF0018186F /* SnapKit */; };
 /* End PBXBuildFile section */
@@ -41,7 +43,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0D352BEA2CD37795004E0B5A /* Alamofire in Frameworks */,
 				0DBBBA782CBA15CD0018186F /* Then in Frameworks */,
+				0D352BED2CD37947004E0B5A /* Moya in Frameworks */,
 				0DBBBA7B2CBA15DF0018186F /* SnapKit in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -87,6 +91,8 @@
 			packageProductDependencies = (
 				0DBBBA772CBA15CD0018186F /* Then */,
 				0DBBBA7A2CBA15DF0018186F /* SnapKit */,
+				0D352BE92CD37795004E0B5A /* Alamofire */,
+				0D352BEC2CD37947004E0B5A /* Moya */,
 			);
 			productName = "AND-SOPT-iOS";
 			productReference = 0DE47BB42CB0D059004BEFD5 /* AND-SOPT-iOS.app */;
@@ -119,6 +125,8 @@
 			packageReferences = (
 				0DBBBA762CBA15CD0018186F /* XCRemoteSwiftPackageReference "Then" */,
 				0DBBBA792CBA15DF0018186F /* XCRemoteSwiftPackageReference "SnapKit" */,
+				0D352BE82CD37795004E0B5A /* XCRemoteSwiftPackageReference "Alamofire" */,
+				0D352BEB2CD37947004E0B5A /* XCRemoteSwiftPackageReference "Moya" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 0DE47BB52CB0D059004BEFD5 /* Products */;
@@ -207,6 +215,8 @@
 		};
 		0DE47BCA2CB0D05B004BEFD5 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReferenceAnchor = 0DE47BB62CB0D059004BEFD5 /* AND-SOPT-iOS */;
+			baseConfigurationReferenceRelativePath = Global/Config.xcconfig;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
@@ -270,6 +280,8 @@
 		};
 		0DE47BCB2CB0D05B004BEFD5 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReferenceAnchor = 0DE47BB62CB0D059004BEFD5 /* AND-SOPT-iOS */;
+			baseConfigurationReferenceRelativePath = Global/Config.xcconfig;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
@@ -348,6 +360,22 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		0D352BE82CD37795004E0B5A /* XCRemoteSwiftPackageReference "Alamofire" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/Alamofire/Alamofire";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.10.1;
+			};
+		};
+		0D352BEB2CD37947004E0B5A /* XCRemoteSwiftPackageReference "Moya" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/Moya/Moya";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 15.0.3;
+			};
+		};
 		0DBBBA762CBA15CD0018186F /* XCRemoteSwiftPackageReference "Then" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/devxoul/Then";
@@ -367,6 +395,16 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		0D352BE92CD37795004E0B5A /* Alamofire */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 0D352BE82CD37795004E0B5A /* XCRemoteSwiftPackageReference "Alamofire" */;
+			productName = Alamofire;
+		};
+		0D352BEC2CD37947004E0B5A /* Moya */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 0D352BEB2CD37947004E0B5A /* XCRemoteSwiftPackageReference "Moya" */;
+			productName = Moya;
+		};
 		0DBBBA772CBA15CD0018186F /* Then */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 0DBBBA762CBA15CD0018186F /* XCRemoteSwiftPackageReference "Then" */;

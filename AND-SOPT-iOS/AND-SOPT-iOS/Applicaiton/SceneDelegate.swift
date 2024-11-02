@@ -21,7 +21,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
       
     self.window = UIWindow(windowScene: windowScene)
       
-    let navigationController = UINavigationController(rootViewController: DynamicStackViewController())
+    let navigationController = UINavigationController(rootViewController: BoxOfficeAPIViewController())
     self.window?.rootViewController = navigationController
       
     self.window?.makeKeyAndVisible()
