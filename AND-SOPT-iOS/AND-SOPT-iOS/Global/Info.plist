@@ -4,8 +4,8 @@
 <dict>
 	<key>UIAppFonts</key>
 	<array>
-		<string>neurimboGothicRegular.otf</string>
 		<string>SUIT-SemiBold.otf</string>
+		<string>SUIT-Bold.otf</string>
 	</array>
 	<key>BASE_URL</key>
 	<string>$(BASE_URL)</string>
