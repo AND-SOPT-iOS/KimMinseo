@@ -27,13 +27,6 @@ class LoginView: UIView {
     let signUpLabel: UIButton = UIButton()
     
     
-    // MARK: - Properties
-    
-    private let attributes: [NSAttributedString.Key: Any] = [
-        .foregroundColor: UIColor.darkgray,
-        .font: UIFont(name: "SUIT-SemiBold", size: 13) ?? UIFont.systemFont(ofSize: 13)
-    ]
-    
     override init(frame: CGRect) {
         super.init(frame: frame)
         
