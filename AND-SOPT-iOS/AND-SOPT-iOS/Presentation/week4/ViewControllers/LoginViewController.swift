@@ -42,6 +42,7 @@ class LoginViewController: UIViewController {
     
     func setActions() {
         loginView.loginButton.addTarget(self, action: #selector(loginButtonTapped), for: .touchUpInside)
+        loginView.signUpLabel.addTarget(self, action: #selector(signUpLabelTapped), for: .touchUpInside)
     }
     
     @objc
@@ -52,6 +53,12 @@ class LoginViewController: UIViewController {
             return
         }
         postUserInfo(username: username, password: password)
+    }
+    
+    @objc
+    func signUpLabelTapped() {
+        let signUpViewController = SignUpViewController()
+        self.navigationController?.pushViewController(signUpViewController, animated: true)
     }
     
 }

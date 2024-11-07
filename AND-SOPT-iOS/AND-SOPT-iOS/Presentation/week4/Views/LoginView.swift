@@ -24,7 +24,7 @@ class LoginView: UIView {
     
     let loginButton: UIButton = UIButton()
     
-    let signUpLabel: UILabel = UILabel()
+    let signUpLabel: UIButton = UIButton()
     
     
     // MARK: - Properties
@@ -100,11 +100,11 @@ class LoginView: UIView {
         }
         
         signUpLabel.do {
-            $0.setLabel(text:"처음 오셨나요? 회원가입 하기", textColor: .darkgray, fontSize: 13)
+            $0.setButton(title: "처음 오셨나요? 회원가입 하기", backgroundColor: .clear,titleColor: .darkgray,font: UIFont(name: "SUIT-SemiBold", size: 13) ?? .systemFont(ofSize: 13))
         }
         
         
     }
-    
+
 }
 
