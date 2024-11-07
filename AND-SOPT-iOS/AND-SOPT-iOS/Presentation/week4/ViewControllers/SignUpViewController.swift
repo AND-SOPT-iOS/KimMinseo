@@ -35,7 +35,7 @@ class SignUpViewController: UIViewController {
     
     func setLayout() {
         self.navigationItem.hidesBackButton = true
-
+        
         signUpView.snp.makeConstraints {
             $0.edges.equalToSuperview()
         }
@@ -65,6 +65,7 @@ class SignUpViewController: UIViewController {
         updateSignUpButtonState(isPasswordMatching: isPasswordMatching)
     }
     
+    
     @objc
     func signUpButtonTapped() {
         guard let username = signUpView.nameTextField.text,
@@ -72,7 +73,6 @@ class SignUpViewController: UIViewController {
               let hobby = signUpView.hobbyTextField.text else { return }
         
         postSignUp(username: username, password: password, hobby: hobby)
-        
     }
     
 }
@@ -100,6 +100,9 @@ extension SignUpViewController {
                 switch result {
                 case let .success(userNo):
                     print("User no: \(userNo)")
+                    let welcomeViewController = WelcomeViewController()
+                    welcomeViewController.username = username 
+                    self?.navigationController?.pushViewController(welcomeViewController, animated: true)
                 case let .failure(error):
                     print("🌟","Error: \(error.errorMessage)")
                 }
