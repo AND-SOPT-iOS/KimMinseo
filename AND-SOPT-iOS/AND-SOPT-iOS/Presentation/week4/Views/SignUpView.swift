@@ -21,23 +21,25 @@ class SignUpView: UIView {
     
     private let nameLabel: UILabel = UILabel()
     
-    private let nameTextField: UITextField = UITextField()
+    let nameTextField: UITextField = UITextField()
     
     private let numLabel2: UIImageView = UIImageView(image: .num2)
     
     private let passwordLabel: UILabel = UILabel()
     
-    private let passwordTextField: UITextField = UITextField()
+    let passwordTextField: UITextField = UITextField()
     
-    private let passwordCheckTextField: UITextField = UITextField()
+    let passwordCheckTextField: UITextField = UITextField()
     
+    let passwordMessageLabel: UILabel = UILabel()
+        
     private let numLabel3: UIImageView = UIImageView(image: .num3)
     
     private let hobbyLabel: UILabel = UILabel()
     
-    private let hobbyTextField: UITextField = UITextField()
+    let hobbyTextField: UITextField = UITextField()
     
-    private let signUpButton: UIButton = UIButton()
+    let signUpButton: UIButton = UIButton()
     
     
     // MARK: - Properties
@@ -60,7 +62,7 @@ class SignUpView: UIView {
     }
     
     func setHierarchy() {
-        self.addSubviews(titleLabel, numLabel1, nameLabel, nameTextField, numLabel2, passwordLabel, passwordTextField, passwordCheckTextField, numLabel3, hobbyLabel, hobbyTextField, signUpButton)
+        self.addSubviews(titleLabel, numLabel1, nameLabel, nameTextField, numLabel2, passwordLabel, passwordTextField, passwordCheckTextField, passwordMessageLabel, numLabel3, hobbyLabel, hobbyTextField, signUpButton)
     }
     
     func setLayout() {
@@ -108,9 +110,14 @@ class SignUpView: UIView {
             $0.horizontalEdges.equalToSuperview().inset(16)
             $0.height.equalTo(54)
         }
+        
+        passwordMessageLabel.snp.makeConstraints {
+            $0.top.equalTo(passwordCheckTextField.snp.bottom).offset(8)
+            $0.leading.equalTo(passwordCheckTextField)
+        }
     
         numLabel3.snp.makeConstraints {
-            $0.top.equalTo(passwordCheckTextField.snp.bottom).offset(21)
+            $0.top.equalTo(passwordCheckTextField.snp.bottom).offset(39)
             $0.leading.equalTo(numLabel1)
             $0.size.equalTo(23)
         }
@@ -169,9 +176,14 @@ class SignUpView: UIView {
         hobbyTextField.do {
             $0.setStyle(placeholder: "8자 이하")
         }
+        
+        passwordMessageLabel.do {
+            $0.setLabel(textColor: .lightblue, fontSize: 11)
+        }
+        
      
         signUpButton.do {
-            $0.setButton(title: "회원 가입")
+            $0.setButton(title: "회원 가입", backgroundColor: .medgray)
         }
         
         
