@@ -71,6 +71,7 @@ class SignUpViewController: UIViewController {
               let password = signUpView.passwordTextField.text,
               let hobby = signUpView.hobbyTextField.text else { return }
         
+        postSignUp(username: username, password: password, hobby: hobby)
         
     }
     
@@ -91,6 +92,19 @@ extension SignUpViewController {
     }
     
     
+    func postSignUp(username: String, password: String, hobby: String) {
+        AuthService().postSignUp(username: username, password: password, hobby: hobby) {[weak self] result in
+            DispatchQueue.main.async {
+                guard self != nil else { return }
+                
+                switch result {
+                case let .success(userNo):
+                    print("User no: \(userNo)")
+                case let .failure(error):
+                    print("🌟","Error: \(error.errorMessage)")
+                }
+            }
+        }
     }
 }
 

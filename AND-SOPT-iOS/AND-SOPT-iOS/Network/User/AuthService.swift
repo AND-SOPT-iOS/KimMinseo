@@ -19,7 +19,22 @@ class AuthService: NetworkService {
             case .success(let response):
                 let token = response.result.token
                 self.saveToken(token)
-                completion(.success(token)) // 토큰을 성공 결과로 반환
+                completion(.success(token))
+            case .failure(let error):
+                completion(.failure(error))
+            }
+        }
+    }
+    
+    func postSignUp(username: String, password: String, hobby: String, completion: @escaping (Result<Int, NetworkError>) -> Void) {
+        let url = Environment.baseURL + "/user"
+        let parameters = PostSignUpRequest(username: username, password: password, hobby: hobby)
+        
+        request(url: url, method: .post, parameters: parameters) { (result: Result<PostSignUpResponse, NetworkError>) in
+            switch result {
+            case .success(let response):
+                let userNo = response.result.no
+                completion(.success(userNo))
             case .failure(let error):
                 completion(.failure(error))
             }
