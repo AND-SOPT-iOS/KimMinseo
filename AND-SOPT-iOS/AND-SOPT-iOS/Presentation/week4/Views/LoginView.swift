@@ -15,18 +15,16 @@ class LoginView: UIView {
     // MARK: - UI Properties
 
     private let titleLabel: UILabel = UILabel()
-    
-    private let nameLabel: UILabel = UILabel()
-    
-    private let nameTextField: UITextField = UITextField()
-    
-    private let passwordLabel: UILabel = UILabel()
-    
-    private let passwordTextField: UITextField = UITextField()
+        
+    let nameTextField: UITextField = UITextField()
+        
+    let passwordTextField: UITextField = UITextField()
     
     private let numLabel3: UIImageView = UIImageView(image: .num3)
     
-    private let loginButton: UIButton = UIButton()
+    let loginButton: UIButton = UIButton()
+    
+    let signUpLabel: UILabel = UILabel()
     
     
     // MARK: - Properties
@@ -49,7 +47,7 @@ class LoginView: UIView {
     }
     
     func setHierarchy() {
-        self.addSubviews(titleLabel, nameLabel, nameTextField, passwordLabel, passwordTextField, loginButton)
+        self.addSubviews(titleLabel, nameTextField, passwordTextField, loginButton, signUpLabel)
     }
     
     func setLayout() {
@@ -58,33 +56,27 @@ class LoginView: UIView {
             $0.centerX.equalToSuperview()
         }
         
-        nameLabel.snp.makeConstraints {
-            $0.top.equalTo(titleLabel.snp.bottom).offset(51)
-            $0.leading.equalToSuperview().inset(16)
-        }
-        
         nameTextField.snp.makeConstraints {
-            $0.top.equalTo(nameLabel.snp.bottom).offset(9)
+            $0.top.equalTo(titleLabel.snp.bottom).offset(108)
             $0.horizontalEdges.equalToSuperview().inset(16)
             $0.height.equalTo(54)
         }
         
-        passwordLabel.snp.makeConstraints {
-            $0.top.equalTo(nameTextField.snp.bottom).offset(20)
-            $0.leading.equalTo(nameLabel)
-        }
-        
         passwordTextField.snp.makeConstraints {
-            $0.top.equalTo(passwordLabel.snp.bottom).offset(9)
+            $0.top.equalTo(nameTextField.snp.bottom).offset(12)
             $0.horizontalEdges.equalToSuperview().inset(16)
             $0.height.equalTo(54)
         }
     
-        
         loginButton.snp.makeConstraints {
             $0.top.equalTo(passwordTextField.snp.bottom).offset(34)
             $0.horizontalEdges.equalToSuperview().inset(16)
             $0.height.equalTo(54)
+        }
+        
+        signUpLabel.snp.makeConstraints {
+            $0.top.equalTo(loginButton.snp.bottom).offset(17)
+            $0.centerX.equalToSuperview()
         }
     }
     
@@ -95,24 +87,20 @@ class LoginView: UIView {
             $0.setLabel(text:"로그인", textColor: .pink, fontName: "SUIT-Bold", fontSize: 20)
         }
         
-        nameLabel.do {
-            $0.setLabel(text:"유저 이름을 입력해주세요!", textColor: .pink, fontSize: 15)
-        }
-        
         nameTextField.do {
             $0.setStyle(placeholder: "유저 이름 입력 (8자 이하)")
         }
-        
-        passwordLabel.do {
-            $0.setLabel(text:"비밀번호", textColor: .pink, fontSize: 15)
-        }
-        
+
         passwordTextField.do {
             $0.setStyle(placeholder: "비밀번호 입력 (8자 이하)")
         }
      
         loginButton.do {
             $0.setButton(title: "로그인")
+        }
+        
+        signUpLabel.do {
+            $0.setLabel(text:"처음 오셨나요? 회원가입 하기", textColor: .darkgray, fontSize: 13)
         }
         
         
