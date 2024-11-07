@@ -8,72 +8,25 @@
 import Alamofire
 import UIKit
 
-class AuthService {
+class AuthService: NetworkService {
     
-    func register(
-        username: String,
-        password: String,
-        completion: @escaping (Result<Bool, NetworkError>) -> Void
-    ) {
-        
+    func postUserInfo(username: String, password: String, completion: @escaping (Result<String, NetworkError>) -> Void) {
         let url = Environment.baseURL + "/login"
-        let parameters = PostUserInfoRequest(
-            username: username,
-            password: password
-        )
+        let parameters = PostUserInfoRequest(username: username, password: password)
         
-        AF.request(
-            url,
-            method: .post,
-            parameters: parameters,
-            encoder: JSONParameterEncoder.default
-        )
-        .validate()
-        .response { [weak self] response in
-            if let data = response.data {
-                print("Response Data: \(String(data: data, encoding: .utf8) ?? "No Data")")
-                do {
-                    let jsonResponse = try JSONDecoder().decode(PostUserInfoResponse.self, from: data)
-                    let token = jsonResponse.result.token
-                    self?.saveToken(token)
-                } catch {
-                    print("Decoding Error: \(error.localizedDescription)")
-                    completion(.failure(.decodingError))
-                }
-            } else {
-                completion(.failure(.unknownError))
+        request(url: url, method: .post, parameters: parameters) { (result: Result<PostUserInfoResponse, NetworkError>) in
+            switch result {
+            case .success(let response):
+                let token = response.result.token
+                self.saveToken(token)
+                completion(.success(token)) // 토큰을 성공 결과로 반환
+            case .failure(let error):
+                completion(.failure(error))
             }
         }
     }
     
-    func handleStatusCode(
-        _ statusCode: Int,
-        data: Data
-    ) -> NetworkError {
-        let errorCode = decodeError(data: data)
-        switch (statusCode, errorCode) {
-        case (400, "01"):
-            return .expressionError
-        case (400, "02"):
-            return .invalidRequest
-        case (403, "01"):
-            return .invalidRequest
-        case (403, "00"):
-            return .invalidURL
-        case (500, ""):
-            return .serverError
-        default:
-            return .unknownError
-        }
-    }
     
-    func decodeError(data: Data) -> String {
-        guard let errorResponse = try? JSONDecoder().decode(
-            ErrorResponse.self,
-            from: data
-        ) else { return "" }
-        return errorResponse.code
-    }
 }
 
 

@@ -25,6 +25,7 @@ class LoginViewController: UIViewController {
         
         setHierarchy()
         setLayout()
+        setActions()
     }
     
     
@@ -36,9 +37,41 @@ class LoginViewController: UIViewController {
         loginView.snp.makeConstraints {
             $0.edges.equalToSuperview()
         }
-
+        
     }
+    
+    func setActions() {
+        loginView.loginButton.addTarget(self, action: #selector(loginButtonTapped), for: .touchUpInside)
+    }
+    
+    @objc
+    func loginButtonTapped() {
+        guard let username = loginView.nameTextField.text, !username.isEmpty,
+              let password = loginView.passwordTextField.text, !password.isEmpty else {
+            print("이름과 비밀번호를 입력해주세요.")
+            return
+        }
+        postUserInfo(username: username, password: password)
+    }
+    
+}
 
+extension LoginViewController {
+    
+    func postUserInfo(username: String, password: String) {
+        AuthService().postUserInfo(username: username, password: password) { [weak self] result in
+            DispatchQueue.main.async {
+                guard self != nil else { return }
+                
+                switch result {
+                case let .success(token):
+                    print("Received Token: \(token)")
+                case let .failure(error):
+                    print("🌟 Error: \(error.errorMessage)")
+                }
+            }
+        }
+    }
 }
 
 
