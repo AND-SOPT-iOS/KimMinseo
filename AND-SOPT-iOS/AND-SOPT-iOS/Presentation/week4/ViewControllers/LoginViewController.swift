@@ -53,6 +53,9 @@ class LoginViewController: UIViewController {
             return
         }
         postUserInfo(username: username, password: password)
+        
+        let mainViewController = MainViewController()
+        self.navigationController?.pushViewController(mainViewController, animated: true)
     }
     
     @objc
