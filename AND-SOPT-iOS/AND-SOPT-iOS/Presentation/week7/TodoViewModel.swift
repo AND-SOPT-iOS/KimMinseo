@@ -36,4 +36,8 @@ class TodoViewModel: ObservableObject {
     func reorderTodos() {
         todos = todos.filter { !$0.isChecked } + todos.filter { $0.isChecked }
     }
+    
+    func addTodo(_ text: String) {
+            todos.append((text: text, isChecked: false, time: nil))
+    }
 }
