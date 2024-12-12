@@ -21,7 +21,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
       
     self.window = UIWindow(windowScene: windowScene)
       
-      let navigationController = UINavigationController(rootViewController: AppStoreViewController())
+      let navigationController = UINavigationController(rootViewController: TodoMateViewController())
     self.window?.rootViewController = navigationController
       
     self.window?.makeKeyAndVisible()
