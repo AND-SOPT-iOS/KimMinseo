@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct TodoListView: View {
-    @State var todos: [(text: String, isChecked: Bool, time: String?)]
+    @ObservedObject var viewModel: TodoViewModel
     
     var body: some View {
         VStack(alignment: .leading) {
@@ -32,19 +32,19 @@ struct TodoListView: View {
             }
             .padding(.bottom, 10)
             
-            ForEach(todos.indices, id: \.self) { index in
+            ForEach(viewModel.todos.indices, id: \.self) { index in
                 HStack(alignment: .top) {
                     Button(action: {
-                        todos[index].isChecked.toggle()
+                        viewModel.toggleTodoCheck(at: index)
+                        viewModel.reorderTodos()
                     }) {
                         ZStack {
                             Image("todo_none")
                                 .resizable()
                                 .renderingMode(.template)
                                 .frame(width: 25, height: 25)
-                                .foregroundColor(todos[index].isChecked ? .todoBrown : .todoGray)
-                            
-                            if todos[index].isChecked {
+                                .foregroundColor(viewModel.todos[index].isChecked ? .todoBrown : .todoGray)
+                            if viewModel.todos[index].isChecked {
                                 Image("check")
                                     .resizable()
                                     .frame(width: 15, height: 11)
@@ -53,11 +53,11 @@ struct TodoListView: View {
                     }
                     
                     VStack(alignment: .leading) {
-                        Text(todos[index].text)
+                        Text(viewModel.todos[index].text)
                             .font(.body)
                             .foregroundColor(.primary)
                         
-                        if let time = todos[index].time {
+                        if let time = viewModel.todos[index].time {
                             HStack {
                                 Image(systemName: "clock")
                                     .font(.caption)
